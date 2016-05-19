@@ -56,9 +56,60 @@ incorrectNumR = size(find(x_axis(R_indices) > 0)); %Number of incorrectly classi
 incorrectNumD = size(find(x_axis(D_indices) < 0)); %Number of incorrectly classified D = 16
 
 
+%% Do soft SVM on 80% and test on 20%
+trainingX = csvread('training_data.csv');
+testingX = csvread('testing_data.csv');
 
+t_training = trainingX(:,1); % True labels of D or R
+
+trainingX = trainingX(:, 2:end); % Data : Voting record
+N_training = size(trainingX,1); 
+D_training = size(trainingX,2); %16
+
+%%[w_training,b_training] = softsvm_proj(trainingX, t_training, gamma);
+b_training = 0.2648;
+w_training = [
+    0.0643;
+    0.0258;
+    0.2078;
+   -0.4054;
+   -0.1456;
+    0.0166;
+   -0.0133;
+    0.0687;
+    0.1113;
+   -0.0379;
+    0.1344;
+   -0.1264;
+   -0.0504;
+   -0.0570;
+    0.0613;
+   -0.0032];
+
+t_testing = testingX(:,1);
+testingX = testingX(:, 2:end);
+N_testing = size(testingX,1);
+D_testing = size(testingX, 2);
+testing_predictions = zeros(N_testing, 1);
+num_correct = 0; %4  (4.6% incorrect)
+num_incorrect = 0; %83 (95.4% correct)
+for i = 1:N_testing
+    data_point = testingX(i,:);
+    temp = dot(w_training, data_point) + b_training;
+    if (temp > 0)
+        testing_predictions(i) = 1;
+    else
+        testing_predictions(i) = -1;
+    end %if
+    
+    if(testing_predictions(i) == t_testing(i))
+        num_correct = num_correct + 1;
+    else
+        num_incorrect = num_incorrect + 1;
+    end %if
+end %for_loop
  
- 
+ %% ================================================================%%
  %%PCA on data
  cov_mat = cov(X);
  [U S V] = svd(cov_mat);
