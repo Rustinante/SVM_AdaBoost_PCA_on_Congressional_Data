@@ -41,6 +41,7 @@ democrat_indices=find(training_data(:,1)==1)
 republican_indices=find(training_data(:,1)==-1)
 X0=training_data(democrat_indices,:)
 X1=training_data(republican_indices,:)
+%removing the labels
 X0=X0(:,2:end)
 X1=X1(:,2:end)
 
@@ -69,6 +70,7 @@ democrat_testing_indices=find(testing_data(:,1)==1);
 republican_testing_indices=find(testing_data(:,1)==-1);
 X0_testing=testing_data(democrat_testing_indices,:);
 X1_testing=testing_data(republican_testing_indices,:);
+%removing the labels
 X0_testing=X0_testing(:,2:end);
 X1_testing=X1_testing(:,2:end);
 
