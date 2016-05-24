@@ -92,18 +92,69 @@ testing_num_errors=testing_num_errors+sum(testing_predicted_republican_indices<5
 
 
 
+%plotting the decision boundary for SVM projected to the first two PCs.
 
 
+votes = csvread('votes.csv'); %Creates 435 by 17 array 
+t = votes(:,1); % True labels of D or R
+
+X = votes(:, 2:end); % Data : Voting record
+N = size(X,1); %435
+D = size(X,2); %16
+
+R_indices = find(t==-1);
+D_indices = find(t== 1);
+
+cov_mat = cov(X);
+ [U S V] = svd(cov_mat);
+ PCs = U;
+ PC1 = PCs(:,1);
+ PC2 = PCs(:,2);
+
+w = [0.0762;
+    0.0118;
+    0.1909;
+   -0.4809;
+   -0.1359;
+    0.0151;
+   -0.0353;
+    0.0447;
+    0.1054;
+   -0.0326;
+    0.1320;
+   -0.1404;
+   -0.0518;
+   -0.0623;
+    0.0557;
+   -0.0269 ];
+b = 0.2675;
 
 
+alpha_1=w.'*PC1;
+alpha_2=w.'*PC2;
+
+x=linspace(-4,4);
+y=(-alpha_1/alpha_2)*x-b/alpha_2;
 
 
+x_axis = zeros(N,1);
+y_axis = zeros(N,1);
+for i = 1:N
+    data_point = X(i, :);
+    x_axis(i) = dot(data_point, PC1);
+    y_axis(i) = dot(data_point, PC2);     
+end %for_loop
 
+figure
+hold on
+scatter(x_axis(R_indices), y_axis(R_indices), 'r')
+scatter(x_axis(D_indices), y_axis(D_indices), 'b')
+title('SVM Decision Boundary Projection to the First Two Principal Components')
+xlabel('1st Principal Component')
+ylabel('2nd Principal Component')
 
-
-
-
-
+plot(x,y,'LineWidth',2);
+axis([-4 4 -4 4]);
 
 
 
