@@ -93,3 +93,9 @@ testing_num_errors=sum(testing_predicted_democrat_indices>51);
 testing_num_errors=testing_num_errors+sum(testing_predicted_republican_indices<52);
 
 %accuracy=78/87=89.7%
+
+
+
+
+
+
