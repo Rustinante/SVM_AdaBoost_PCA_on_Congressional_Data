@@ -87,11 +87,7 @@ testing_num_errors=testing_num_errors+sum(testing_predicted_republican_indices<5
 
 
 
-
-
-
-
-
+#---------------------------------------------------------------------------#
 %plotting the decision boundary for SVM projected to the first two PCs.
 
 
@@ -129,7 +125,6 @@ w = [0.0762;
    -0.0269 ];
 b = 0.2675;
 
-
 alpha_1=w.'*PC1;
 alpha_2=w.'*PC2;
 
@@ -156,7 +151,8 @@ ylabel('2nd Principal Component')
 plot(x,y,'LineWidth',2);
 axis([-4 4 -4 4]);
 
-
+hold off
+#---------------------------------------------------------------------------#
 
 
 
