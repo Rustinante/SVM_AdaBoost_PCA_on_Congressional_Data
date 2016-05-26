@@ -374,7 +374,8 @@ t=[t1;tminus1];
 
 [w,b]=softsvm_proj(projected_X_training,t,0.05);
 
-
+%w=[-0.6777;-0.4998]
+%b=0.8745
 
 training_predictions=zeros(N_training,1);
 for i=1:N_training
