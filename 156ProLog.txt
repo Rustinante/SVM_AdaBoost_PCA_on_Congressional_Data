@@ -369,7 +369,8 @@ end
 
 projected_X_training=[projected_X0_training;projected_X1_training];
 t1=ones(216,1);
-tminus1=-ones(132.1);
+tminus1=-ones(132,1);
+t=[t1;tminus1];
 [w,b]=softsvm_proj(projected_X_training,t,0.05);
 
 
