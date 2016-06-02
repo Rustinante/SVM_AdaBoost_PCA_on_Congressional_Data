@@ -34,8 +34,8 @@ np.savetxt("training_data.csv",training_data,delimiter=",",fmt="%d")
 
 %Adaboost
 
-training_data=csvread('training_data.csv')
-testing_data=csvread('testing_data.csv')
+training_data=csvread('training_data.csv');
+testing_data=csvread('testing_data.csv');
 
 democrat_indices=find(training_data(:,1)==1);
 republican_indices=find(training_data(:,1)==-1);
@@ -258,7 +258,7 @@ testing_num_errors=testing_num_errors+sum(testing_predicted_republican_indices<5
 
 
 #-------------------------------------------------------------------------#
-
+%AdaBoost on Dimensionally Reduced Data (entire dataset)
 votes = csvread('votes.csv'); %Creates 435 by 17 array 
 t = votes(:,1); % True labels of D or R
 
@@ -318,6 +318,36 @@ end
 title('AdaBoost on Dimensionally Reduced Data')
 xlabel('1st Principal Component')
 ylabel('2nd Principal Component')
+hold off
+
+
+%plot adaboost decision boundaries
+grid=zeros(10000,2);
+
+for i=1:100
+for j=1:100
+grid((i-1)*100+j,1)=x(i);
+grid((i-1)*100+j,2)=x(j);
+end
+end
+
+C=boosteval(grid.',params,weights);
+
+figure
+hold on
+for i=1:10000
+    if C(i)==1
+    scatter(grid(i,1),grid(i,2),20,'b','o','filled')
+    else
+    scatter(grid(i,1),grid(i,2),20,'r','o','filled')
+    end
+end
+
+
+title('AdaBoost Boundary by Grid Points')
+xlabel('1st Principal Component')
+ylabel('2nd Principal Component')   
+hold off
 
 #-------------------------------END------------------------------------------#
 
@@ -438,5 +468,14 @@ end
 testing_errors=sum(testing_predictions(1:51,1)==-1)+sum(testing_predictions(52:87,1)==1);
 %testing_errors=10;
 %accuracy=77/87=88.50%
+
+#-------------------------------END-----------------------------------------#
+
+
+
+
+
+
+
 
 
